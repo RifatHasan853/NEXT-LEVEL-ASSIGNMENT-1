@@ -7,27 +7,34 @@ At first glance, interface and type might seem to do the same thing — define t
 Let’s break it down.
 
 # Defining an Interface:
-ts
-Copy
-Edit
 interface User {
   name: string;
   age: number;
 }
 # Defining a Type:
-ts
-Copy
-Edit
+
 type User = {
   name: string;
   age: number;
 }
 # Key Differences
-Feature	Interface	Type Alias
-Can extend other interfaces	✅ Yes	✅ Yes (using intersection &)
-Can implement in classes	✅ Yes	❌ No
-Can be merged (declaration merging)	✅ Yes	❌ No
-Can define primitives, unions, tuples	❌ No	✅ Yes
+While both interface and type can define the shape of an object, there are a few important differences in how they behave and what they can do.
+
+First, interfaces can extend other interfaces using the extends keyword. This is especially helpful when you want to build on existing structures or create a hierarchy of types. Type aliases can also achieve a similar result, but they do it differently — by combining multiple types using intersection types (&).
+
+Second, interfaces can be implemented in classes, which means a class can explicitly promise to follow the structure defined by an interface. This feature is great when working with object-oriented patterns. Type aliases, on the other hand, can’t be implemented by classes. They’re more of a general-purpose way to describe data shapes and type compositions.
+
+Third, interfaces support something called declaration merging. This means you can declare the same interface multiple times, and TypeScript will automatically merge them together. It’s a powerful feature that comes in handy when working with third-party libraries or when you need to gradually expand an interface’s definition over time. Type aliases don’t support this — if you try to declare a type alias with the same name more than once, TypeScript will raise an error.
+
+Lastly, when it comes to defining different kinds of types, there’s a limitation with interfaces. Interfaces are designed specifically to describe object-like shapes. They can’t directly represent primitive values (like string or number), unions, tuples, or other more complex type compositions. Type aliases, however, are much more flexible. They can be used to define primitives, union types, intersection types, tuples, and even conditional types.
+
+In short:
+
+Use interfaces when working with object shapes and classes.
+
+Use type aliases when you need more flexibility or want to create unions, intersections, or alias other type constructs.
+
+
 
 # Declaration Merging
 This is one of the coolest features of interfaces. You can declare the same interface multiple times, and TypeScript will merge them.
@@ -39,7 +46,7 @@ interface User {
   age: number;
 }
 
-// Final shape:
+Final shape:
 const person: User = {
   name: "Ayaan",
   age: 24
@@ -60,9 +67,6 @@ One of the biggest reasons developers and teams adopt TypeScript is the safety n
 # 1️⃣ Early Error Detection
 TypeScript catches type-related mistakes during development — before your code ever reaches production.
 
-ts
-Copy
-Edit
 let count: number = "hello"; // Error: Type 'string' is not assignable to type 'number'
 This saves tons of debugging hours, especially on larger teams and projects.
 
